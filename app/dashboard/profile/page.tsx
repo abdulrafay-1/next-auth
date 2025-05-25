@@ -44,11 +44,11 @@ const Profile = () => {
     useEffect(() => {
         const bunnyFetch = async () => {
             try {
+                const headers = new Headers()
+                headers.append('AccessKey', process.env.NEXT_PUBLIC_BUNNY_STORAGE_API_KEY as string)
                 const response = await fetch('https://storage.bunnycdn.com/nextauth/test/', {
                     method: 'GET',
-                    headers: {
-                        AccessKey: process.env.NEXT_PUBLIC_BUNNY_STORAGE_API_KEY as string,
-                    }
+                    headers: headers,
                 })
 
                 if (!response.ok) {
