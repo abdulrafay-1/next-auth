@@ -47,7 +47,7 @@ const Profile = () => {
                 const response = await fetch('https://storage.bunnycdn.com/nextauth/test/', {
                     method: 'GET',
                     headers: {
-                        'AccessKey': process.env.NEXT_PUBLIC_BUNNY_STORAGE_API_KEY || ''
+                        AccessKey: process.env.NEXT_PUBLIC_BUNNY_STORAGE_API_KEY as string,
                     }
                 })
 
