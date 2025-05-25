@@ -3,6 +3,7 @@ import { uploadToBunnyCDN } from '@/utils/bunnyUpload'
 import Image from 'next/image';
 import React, { useEffect } from 'react'
 import Hls from 'hls.js'
+import axios from 'axios';
 
 interface BunnyFile {
     Guid: string;
@@ -44,25 +45,21 @@ const Profile = () => {
     useEffect(() => {
         const bunnyFetch = async () => {
             try {
-                const headers = new Headers()
-                headers.append('AccessKey', process.env.NEXT_PUBLIC_BUNNY_STORAGE_API_KEY as string)
-                const response = await fetch('https://storage.bunnycdn.com/nextauth/test/', {
-                    method: 'GET',
-                    headers: headers,
-                })
+                const response = await axios.get('https://storage.bunnycdn.com/nextauth/test/', {
+                    headers: {
+                        AccessKey: process.env.NEXT_PUBLIC_BUNNY_STORAGE_API_KEY as string,
+                    },
+                });
 
-                if (!response.ok) {
-                    throw new Error(`Error fetching file: ${response}`)
-                }
-
-                const data = await response.json()
-                console.log('File content:', data)
-                setUploadedImages(data)
+                const data = response.data;
+                console.log('File content:', data);
+                setUploadedImages(data);
                 // console.log(uploadedImages)
             } catch (error) {
-                console.error('Error fetching from Bunny CDN:', error)
+                console.error('Error fetching from Bunny CDN:', error);
             }
-        }
+        };
+
         bunnyFetch()
     }, [])
 
