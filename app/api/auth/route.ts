@@ -11,6 +11,13 @@ let users = [
         email: "john@example.com",
         password: "$2a$10$LuqPBKL3fEkn/QQHfvAt1.Oy.K/IHHU6PVT6EEnC54Zak.eAVxBMq", // password123
         role: "user"
+    },
+      {
+        id: 1,
+        name: "Rafay",
+        email: "rafay@gmail.com",
+        password: "$2a$10$o0ikhjK1pXpOZmr4U3TAZusB15MAF2baj4ayb05dqyh4pauSdMNDS", // 123456
+        role: "user"
     }
 ];
 

@@ -32,6 +32,12 @@ export default function Navbar() {
                                 >
                                     Profile
                                 </Link>
+                                 <Link
+                                    href="/dashboard/stripe"
+                                    className="text-gray-600 hover:text-gray-900"
+                                >
+                                    Stripe
+                                </Link>
                                 <button
                                     onClick={logout}
                                     className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition-colors"
