@@ -3,18 +3,19 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "@/components/AuthProvider";
 import { fetchWithAuth } from "@/utils/auth";
+import { useAxios } from "@/axios/axoisInstance";
 
 const Dashboard = () => {
-  const { logout, user } = useAuth();
+  const { logout } = useAuth();
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
-
+  const axios = useAxios()
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const data = await fetchWithAuth("/api/users");
-        setUserData(data);
+        const data = await axios("/api/users");
+        setUserData(data.data);
       } catch (error) {
         console.error("Failed to fetch user data:", error);
       } finally {

@@ -9,11 +9,6 @@ export default function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const { isAuthenticated } = useAuth();
-
-  // Add a console log to debug
-  console.log("Dashboard Layout - Auth Status:", { isAuthenticated });
-
   return (
     <ProtectedRoute>
       <Navbar />

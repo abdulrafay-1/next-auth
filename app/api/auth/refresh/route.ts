@@ -32,7 +32,7 @@ export async function POST(request: Request) {
             type: 'access'
         })
             .setProtectedHeader({ alg: 'HS256' })
-            .setExpirationTime('15m')
+            .setExpirationTime('10s')
             .sign(secret);
 
         return NextResponse.json({

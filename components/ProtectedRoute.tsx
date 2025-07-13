@@ -1,26 +1,34 @@
-'use client'
+// components/ProtectedRoute.tsx
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useAuth } from "./AuthProvider"; // adjust path as needed
 
-import { useAuth } from './AuthProvider'
-import { useRouter } from 'next/navigation'
-import { useEffect } from 'react'
+type Props = {
+    children: React.ReactNode;
+};
 
-export default function ProtectedRoute({ children }: { children: React.ReactNode }) {
-    const { isAuthenticated, loading } = useAuth()
-    const router = useRouter()
+const ProtectedRoute: React.FC<Props> = ({ children }) => {
+    const { accessToken } = useAuth();
+    const [isLoading, setIsLoading] = useState(true);
+    const router = useRouter();
 
     useEffect(() => {
-        if (!loading && !isAuthenticated) {
-            router.push('/login')
-        }
-    }, [loading, isAuthenticated, router])
+        const checkAuth = async () => {
+            if (!accessToken || accessToken === "null") {
+                router.replace("/login");
+            } else {
+                setIsLoading(false);
+            }
+        };
 
-    if (loading) {
-        return (
-            <div className="min-h-screen flex items-center justify-center">
-                <div className="text-xl">Loading...</div>
-            </div>
-        )
+        checkAuth();
+    }, [accessToken, router]);
+
+    if (isLoading) {
+        return <div className="flex items-center justify-center h-screen">Loading...</div>;
     }
 
-    return isAuthenticated ? children : null
-}
+    return <>{children}</>;
+};
+
+export default ProtectedRoute;

@@ -38,7 +38,12 @@ export async function middleware(request: NextRequest) {
             });
         } catch (error) {
             return NextResponse.json(
-                { message: "Invalid token", error: error instanceof Error ? error.message : "Unknown error" },
+                {
+                    message: "Invalid token",
+                    JWT_SECRET,
+                    token,
+                    error: error instanceof Error ? error.message : "Unknown error"
+                },
                 { status: 401 }
             );
         }

@@ -12,7 +12,7 @@ let users = [
         password: "$2a$10$LuqPBKL3fEkn/QQHfvAt1.Oy.K/IHHU6PVT6EEnC54Zak.eAVxBMq", // password123
         role: "user"
     },
-      {
+    {
         id: 1,
         name: "Rafay",
         email: "rafay@gmail.com",
@@ -145,7 +145,7 @@ export async function PUT(request: Request) {
             type: 'access'
         })
             .setProtectedHeader({ alg: 'HS256' })
-            .setExpirationTime('15m') // Short-lived access token
+            .setExpirationTime('10s') // Short-lived access token
             .sign(secret);
 
         const refreshToken = await new jose.SignJWT({
@@ -153,7 +153,7 @@ export async function PUT(request: Request) {
             type: 'refresh'
         })
             .setProtectedHeader({ alg: 'HS256' })
-            .setExpirationTime('7d') // Longer-lived refresh token
+            .setExpirationTime('20s') // Longer-lived refresh token
             .sign(secret);
         // Remove password from response
         const { password, ...userWithoutPassword } = user;

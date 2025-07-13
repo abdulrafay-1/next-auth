@@ -3,17 +3,11 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/components/AuthProvider'
+import axios from 'axios'
 
 const Login = () => {
     const router = useRouter()
-    const { login, isAuthenticated } = useAuth()
-
-    // Redirect if already authenticated
-    useEffect(() => {
-        if (isAuthenticated) {
-            router.push('/')
-        }
-    }, [isAuthenticated, router])
+    const { setAccessToken } = useAuth()
 
     const [formData, setFormData] = useState({
         email: '',
@@ -36,25 +30,21 @@ const Login = () => {
         setLoading(true)
 
         try {
-            const res = await fetch('/api/auth', {
-                method: 'PUT',
+            const response = await axios.put('/api/auth', {
+                email: formData.email,
+                password: formData.password
+            }, {
                 headers: {
                     'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ email: formData.email, password: formData.password })
-            })
-            const data = await res.json()
+                }
+            });
 
-            if (!res.ok) {
-                throw new Error(data.message || 'Login failed')
-            }
-
-            // Use AuthContext login
-            login({
-                accessToken: data.accessToken,
-                refreshToken: data.refreshToken,
-                user: data.user
-            })
+            const data = response.data;
+            console.log(data)
+            localStorage.setItem("refreshToken", data.refreshToken)
+            localStorage.setItem("accessToken", data.accessToken)
+            setAccessToken(data.accessToken)
+            router.push("/dashboard")
         } catch (err) {
             setError(err instanceof Error ? err.message : 'Something went wrong')
         } finally {
